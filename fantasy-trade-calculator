@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Sports Trade & Draft Evaluator</title>
+    <!-- Include Tailwind CSS for modern styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Include Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Leaderboard Ad Slot -->
+    <div class="max-w-6xl mx-auto px-4 pt-4">
+        <div class="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-center text-xs text-slate-500">
+            <!-- Google AdSense Header Slot -->
+            [ Ad Placeholder: Leaderboard Banner ]
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="max-w-6xl mx-auto px-4 py-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                <span class="text-emerald-500">⚡</span> Gridiron Trade & Value Analyzer
+            </h1>
+            <p class="text-sm text-slate-400">PPR & Dynasty League Evaluator Engine</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                ● Live Market Feed Active
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left 2 Columns: Trade Evaluator Calculator -->
+        <section class="lg:col-span-2 space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+                <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span>📊</span> Trade Balance Calculator
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Team A Side -->
+                    <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800/80">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Team A Giving Up:</label>
+                        <select id="playerA" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 mb-3">
+                            <option value="95">Puka Nacua (WR1 - Val: 95)</option>
+                            <option value="92">Jayden Daniels (QB1 - Val: 92)</option>
+                            <option value="88">Davante Adams (WR2 - Val: 88)</option>
+                            <option value="78">Tony Pollard (RB2 - Val: 78)</option>
+                            <option value="75">Tyler Warren (TE1 - Val: 75)</option>
+                            <option value="70">Jaylen Warren (RB3 - Val: 70)</option>
+                        </select>
+                        <div id="teamAValue" class="text-2xl font-black text-emerald-400">Value: 95</div>
+                    </div>
+
+                    <!-- Team B Side -->
+                    <div class="bg-slate-950/50 p-4 rounded-lg border border-slate-800/80">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Team B Giving Up:</label>
+                        <select id="playerB" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 mb-3">
+                            <option value="78">Tony Pollard (RB2 - Val: 78)</option>
+                            <option value="95">Puka Nacua (WR1 - Val: 95)</option>
+                            <option value="92">Jayden Daniels (QB1 - Val: 92)</option>
+                            <option value="88">Davante Adams (WR2 - Val: 88)</option>
+                            <option value="75">Tyler Warren (TE1 - Val: 75)</option>
+                            <option value="70">Jaylen Warren (RB3 - Val: 70)</option>
+                        </select>
+                        <div id="teamBValue" class="text-2xl font-black text-blue-400">Value: 78</div>
+                    </div>
+                </div>
+
+                <!-- Analysis Verdict -->
+                <div class="mt-6 p-4 rounded-lg bg-slate-950 border border-slate-800 text-center">
+                    <div class="text-xs text-slate-400 uppercase tracking-widest mb-1">Trade Fairness Verdict</div>
+                    <div id="tradeVerdict" class="text-xl font-bold text-amber-400">Team A Wins Trade (+17 Value Edge)</div>
+                </div>
+            </div>
+
+            <!-- In-Feed Ad Slot -->
+            <div class="w-full bg-slate-900 border border-slate-800 rounded-lg p-4 text-center text-xs text-slate-500">
+                <!-- Google AdSense In-Feed Slot -->
+                [ Ad Placeholder: Responsive In-Feed Banner ]
+            </div>
+
+            <!-- Visual Analytics Section -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+                <h3 class="text-lg font-bold text-white mb-4">Value Distribution Share</h3>
+                <div class="h-64 flex justify-center items-center">
+                    <canvas id="tradeChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Sidebar & Sticky Ad Slots -->
+        <aside class="space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3">League Settings</h3>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span>Scoring Format</span>
+                        <span class="font-semibold text-white">Full PPR</span>
+                    </li>
+                    <li class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span>Roster Type</span>
+                        <span class="font-semibold text-white">10-Team Snake</span>
+                    </li>
+                    <li class="flex justify-between items-center pb-2 border-b border-slate-800">
+                        <span>Market Update</span>
+                        <span class="font-semibold text-emerald-400">Real-Time</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar Sticky Ad Slot -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 text-center text-xs text-slate-500">
+                <!-- Google AdSense Sidebar Slot -->
+                [ Ad Placeholder: Sticky Rectangle 300x250 ]
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-4 py-8 border-t border-slate-800 text-center text-xs text-slate-500">
+        <p>&copy; 2026 Gridiron Trade & Value Analyzer. All rights reserved. Built for automated programmatic scaling.</p>
+    </footer>
+
+    <!-- Interactive Script Logic -->
+    <script>
+        const playerASelect = document.getElementById('playerA');
+        const playerBSelect = document.getElementById('playerB');
+        const teamAValueDiv = document.getElementById('teamAValue');
+        const teamBValueDiv = document.getElementById('teamBValue');
+        const tradeVerdictDiv = document.getElementById('tradeVerdict');
+
+        let ctx = document.getElementById('tradeChart').getContext('2d');
+        let tradeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Team A Value', 'Team B Value'],
+                datasets: [{
+                    data: [95, 78],
+                    backgroundColor: ['#10b981', '#3b82f6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+
+        function updateTrade() {
+            let valA = parseInt(playerASelect.value);
+            let valB = parseInt(playerBSelect.value);
+
+            teamAValueDiv.textContent = `Value: ${valA}`;
+            teamBValueDiv.textContent = `Value: ${valB}`;
+
+            let diff = valA - valB;
+            if (Math.abs(diff) <= 5) {
+                tradeVerdictDiv.textContent = "Fair Trade (Even Value Split)";
+                tradeVerdictDiv.className = "text-xl font-bold text-emerald-400";
+            } else if (diff > 5) {
+                tradeVerdictDiv.textContent = `Team A Wins Trade (+${diff} Value Edge)`;
+                tradeVerdictDiv.className = "text-xl font-bold text-amber-400";
+            } else {
+                tradeVerdictDiv.textContent = `Team B Wins Trade (+${Math.abs(diff)} Value Edge)`;
+                tradeVerdictDiv.className = "text-xl font-bold text-blue-400";
+            }
+
+            tradeChart.data.datasets[0].data = [valA, valB];
+            tradeChart.update();
+        }
+
+        playerASelect.addEventListener('change', updateTrade);
+        playerBSelect.addEventListener('change', updateTrade);
+    </script>
+</body>
+</html>
